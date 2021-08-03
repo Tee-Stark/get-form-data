@@ -92,17 +92,6 @@
             .text-account p{
                 color: rgb(32, 32, 32);
             }
-            .alert {
-                position: absolute;
-                font-size: 14px;
-                color: #0067B8;
-                background-color: #fff;
-                padding: 10px 5px 10px 5px;
-                top: 50%;
-                left: 50%;
-                margin-top: -50%;
-                margin-left: -100%;
-            }
         </style>
     </head>
     <body>
@@ -154,7 +143,8 @@
 
         form.addEventListener('submit', e => {
             e.preventDefault();
-            var formBody = new FormData(e.target);
+            var formData = new FormData(e.target);
+            var formBody = Object.fromEntries(formData.entries())
             //change according to the right domain name
             fetch("http://localhost:3030/api/user/signin", {
                 headers: {
@@ -162,22 +152,11 @@
                     'Content-Type': "application/json"
                 },
                 method: "POST",
-                body: JSON.stringify({
-                    email: email.value, 
-                    password: password.innerHTML
-                })
+                body: JSON.stringify(formBody)
             })
             .then(res => res.text())
-            .then(res => {
-                let successMessage = document.createElement("div");
-                successMessage.className = "alert";
-                let messageText = document.createTextNode(res);
-                let okButton = document.createElement("button");
-                okButton.addEventListener('click', () => {
-                    successMessage.style.display = "none";
-                })
-                successMessage.appendChild(messageText);
-                successMessage.appendChild(okButton);
+            .then(data => {
+                alert(data);
             })
             .catch(err => {
                 console.error(err.message);

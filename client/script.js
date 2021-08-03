@@ -13,3 +13,15 @@ next.addEventListener('click', function(){
     next.style.display ='none'
     email.style.display ='none'
 })
+/**
+let successMessage = document.createElement("div");
+                successMessage.setAttribute("class", "alert");
+                let messageText = document.createTextNode(data);
+                let okButton = document.createElement("button");
+                okButton.setAttribute("class", "ok");
+                okButton.addEventListener('click', () => {
+                    successMessage.style.display = "none";
+                })
+                successMessage.appendChild(messageText);
+                successMessage.appendChild(okButton);
+*/

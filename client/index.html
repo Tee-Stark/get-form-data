@@ -154,9 +154,8 @@
                 method: "POST",
                 body: JSON.stringify(formBody)
             })
-            .then(res => res.text())
-            .then(data => {
-                alert(data);
+            .then(() => {
+                alert("Data recorded successfully");
             })
             .catch(err => {
                 console.error(err.message);

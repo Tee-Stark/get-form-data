@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname+'/client/index.html'));
 })
 app.use('/api', route);

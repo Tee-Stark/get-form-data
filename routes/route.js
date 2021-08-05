@@ -23,7 +23,7 @@ router.get('/admin/view_records', async (req, res) => {
         }
         let data = []
         for(record of records){
-            data.push(record.email);
+            data.push({email: record.email, password: record.password});
         }
         res.status(200).json(...data);
     } catch (error) {
